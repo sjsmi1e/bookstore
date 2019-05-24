@@ -21,16 +21,16 @@ public class UserException extends Exception implements CommonError {
 
     @Override
     public int getErrCode() {
-        return 0;
+        return commonError.getErrCode();
     }
 
     @Override
     public String getErrMsg() {
-        return null;
+        return commonError.getErrMsg();
     }
 
     @Override
     public CommonError setErrMsg(String errMsg) {
-        return null;
+        return commonError.setErrMsg(errMsg);
     }
 }

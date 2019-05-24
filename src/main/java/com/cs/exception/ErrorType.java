@@ -25,16 +25,17 @@ public enum ErrorType implements CommonError {
 
     @Override
     public int getErrCode() {
-        return 0;
+        return this.errNum;
     }
 
     @Override
     public String getErrMsg() {
-        return null;
+        return this.errMsg;
     }
 
     @Override
     public CommonError setErrMsg(String errMsg) {
-        return null;
+        this.errMsg=errMsg;
+        return this;
     }
 }

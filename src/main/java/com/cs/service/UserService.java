@@ -21,4 +21,9 @@ public class UserService implements UserMapper {
     public List<Customer> getCustomer() {
         return userMapper.getCustomer();
     }
+
+    @Override
+    public Integer logIn(String userEmail, String userPassword) {
+        return userMapper.logIn(userEmail,userPassword);
+    }
 }

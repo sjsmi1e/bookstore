@@ -1,5 +1,6 @@
 package com.cs.controller;
 
+import com.cs.exception.BookException;
 import com.cs.exception.ErrorType;
 import com.cs.exception.UserException;
 import com.cs.response.CommonResponse;
@@ -20,9 +21,25 @@ public class MyExceptionHandler{
         return CommonResponse.createResponse(9999,e.getMessage());
     }
 
+    /**
+     * 用户异常
+     * @param e
+     * @return
+     */
     @ExceptionHandler(UserException.class)
     @ResponseBody
-    public CommonResponse pageErrorHandller(Exception e){
-        return CommonResponse.createResponse(ErrorType.USER_ERROR_NOTEXIT.getErrCode(),e.getMessage());
+    public CommonResponse userErrorHandller(UserException e){
+        return CommonResponse.createResponse(e.getErrCode(),e.getMessage());
+    }
+
+    /**
+     * 书籍异常
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(BookException.class)
+    @ResponseBody
+    public CommonResponse bookErrorHandller(BookException e){
+        return CommonResponse.createResponse(e.getErrCode(),e.getMessage());
     }
 }

@@ -1,10 +1,7 @@
 package com.cs.mapper;
 
 import com.cs.pojo.Customer;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.web.bind.annotation.Mapping;
 
 import java.util.List;
@@ -28,4 +25,13 @@ public interface UserMapper {
             @Result(property = "actived",column = "actived")
     })
     public List<Customer> getCustomer();
+
+    /**
+     *
+     * @param userEmail
+     * @param userPassword
+     * @return userId
+     */
+    @Select("select id from user where user_email=#{userEmail} and user_password=#{userPassword}")
+    public Integer logIn(@Param("userEmail")String userEmail,@Param("userPassword")String userPassword);
 }
