@@ -5,6 +5,7 @@ import com.cs.mapper.BookMapper;
 import com.cs.mapper.ShoppingCartMapper;
 import com.cs.pojo.Book;
 import com.cs.pojo.Order;
+import com.cs.pojo.Remark;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,21 @@ public class BookService implements BookMapper,ShoppingCartMapper {
     @Override
     public List<Book> searchBook(String book_name) {
         return bookMapper.searchBook(book_name);
+    }
+
+    @Override
+    public List<Book> top10Book() {
+        return bookMapper.top10Book();
+    }
+
+    @Override
+    public List<Remark> getRemarkByBookId(Integer bookId) {
+        return bookMapper.getRemarkByBookId(bookId);
+    }
+
+    @Override
+    public Integer addRemark(Remark remark) {
+        return bookMapper.addRemark(remark);
     }
 
     @Override

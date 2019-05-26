@@ -1,5 +1,6 @@
 package com.cs.service;
 
+import com.cs.controller.VOModel.UserVO;
 import com.cs.mapper.ShoppingCartMapper;
 import com.cs.mapper.UserMapper;
 import com.cs.pojo.Customer;
@@ -20,10 +21,6 @@ public class UserService implements UserMapper {
     @Autowired
     UserMapper userMapper;
 
-    @Override
-    public List<Customer> getCustomer() {
-        return userMapper.getCustomer();
-    }
 
     @Override
     public Integer logIn(String userEmail, String userPassword) {
@@ -38,6 +35,11 @@ public class UserService implements UserMapper {
     @Override
     public User getUserById(Integer userId) {
         return userMapper.getUserById(userId);
+    }
+
+    @Override
+    public UserVO getUserById2(Integer userId) {
+        return userMapper.getUserById2(userId);
     }
 
     @Override

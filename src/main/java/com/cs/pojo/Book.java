@@ -19,4 +19,6 @@ public class Book {
     private Integer bookPurchaseNum;
     private Integer userId;
     private String bookPress;
+    private String bookAuthor;
+    private String bookDesc;
 }

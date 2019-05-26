@@ -11,6 +11,7 @@ import com.cs.response.CommonResponse;
 import com.cs.service.BookService;
 import com.cs.service.UserService;
 import com.cs.util.FormateTime;
+import com.cs.util.StringUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.server.Session;
@@ -40,12 +41,6 @@ public class UserController extends VOController{
     private BookService bookService;
     private Lock lock = new ReentrantLock();
 
-    @ResponseBody
-    @RequestMapping("/getAllCustomer")
-    public CommonResponse getCustomer(){
-        List<Customer> customer = userService.getCustomer();
-        return CommonResponse.createResponse(200,customer);
-    }
 
     /**
      * 登录
@@ -58,7 +53,7 @@ public class UserController extends VOController{
     @ResponseBody
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public CommonResponse logIn(HttpServletRequest request, HttpServletResponse response, String userName, String userPassword) throws Exception {
-        if (userName==null || userPassword==null || userName=="" || userPassword==""){
+        if (userName==null || userPassword==null || userName.equals("") || userPassword.equals("")){
             throw new UserException(ErrorType.USER_ERROR_NOTEXIT,ErrorType.USER_ERROR_NOTEXIT.getErrMsg());
         }else {
             //加锁避免线程安全问题
@@ -89,11 +84,11 @@ public class UserController extends VOController{
      */
     @ResponseBody
     @RequestMapping(value = "/getUserById",method = RequestMethod.GET)
-    public CommonResponse getUserById(Integer userId) throws Exception {
-        if (userId==null){
+    public CommonResponse getUserById(String userId) throws Exception {
+        if (userId==null || userId.equals("") || !StringUtil.isInteger(userId)){
             throw new Exception("输入参数不正确");
         }else {
-            return CommonResponse.createResponse(200,userVOconvertFromPojo(userService.getUserById(userId)));
+            return CommonResponse.createResponse(200,userVOconvertFromPojo(userService.getUserById(Integer.valueOf(userId))));
         }
     }
 
@@ -111,11 +106,11 @@ public class UserController extends VOController{
      */
     @ResponseBody
     @RequestMapping(value = "/shoppingCart",method = RequestMethod.GET)
-    public CommonResponse getAllBooksFromShoppingCart(Integer userId) throws Exception {
-        if (userId==null){
+    public CommonResponse getAllBooksFromShoppingCart(String userId) throws Exception {
+        if (userId==null || userId.equals("") || !StringUtil.isInteger(userId)){
             throw new Exception("输入参数错误");
         }
-        return CommonResponse.createResponse(200,bookService.getAllBooksFromShoppingCart(userId));
+        return CommonResponse.createResponse(200,bookService.getAllBooksFromShoppingCart(Integer.valueOf(userId)));
     }
 
     /**
@@ -126,11 +121,11 @@ public class UserController extends VOController{
      */
     @ResponseBody
     @RequestMapping(value = "/delBookFromCart",method = RequestMethod.GET)
-    public CommonResponse delBookFromCart(Integer cartId) throws Exception {
-        if (cartId==null){
+    public CommonResponse delBookFromCart(String cartId) throws Exception {
+        if (cartId==null || cartId.equals("") || !StringUtil.isInteger(cartId)){
             throw new Exception("输入参数错误");
         }
-        if (bookService.delBookFromShoppingCart(cartId)==null){
+        if (bookService.delBookFromShoppingCart(Integer.valueOf(cartId))==null){
             return CommonResponse.createResponse(200,"fail");
         }else {
             return CommonResponse.createResponse(200,"success");
@@ -139,11 +134,11 @@ public class UserController extends VOController{
 
     @ResponseBody
     @RequestMapping(value = "/getAddrByUserId",method = RequestMethod.GET)
-    public CommonResponse getAddrByUserId(Integer userId) throws Exception {
-        if (userId==null){
+    public CommonResponse getAddrByUserId(String userId) throws Exception {
+        if (userId==null || userId.equals("") || !StringUtil.isInteger(userId)){
             throw new Exception("输入参数错误");
         }else {
-            return CommonResponse.createResponse(200,userService.getAddrByUserId(userId));
+            return CommonResponse.createResponse(200,userService.getAddrByUserId(Integer.valueOf(userId)));
         }
     }
 
@@ -158,7 +153,7 @@ public class UserController extends VOController{
     @RequestMapping(value = "/placeOrder",method = RequestMethod.POST)
     @ResponseBody
     public CommonResponse placeOrder(String books,String buyId,String addr) throws Exception {
-        if (books==null){
+        if (books==null || buyId==null || addr==null || books.equals("") || !StringUtil.isInteger(buyId) || addr.equals("")){
             throw new Exception("输入参数错误");
         }
         //加锁，线程安全

@@ -1,5 +1,6 @@
 package com.cs.pojo;
 
+import com.cs.controller.VOModel.UserVO;
 import lombok.Data;
 
 /**
@@ -10,7 +11,7 @@ import lombok.Data;
 @Data
 public class Remark {
     private Integer remarkId;
-    private Integer userId;
+    private UserVO user;
     private Integer bookId;
     private Integer starNum;
     private String content;

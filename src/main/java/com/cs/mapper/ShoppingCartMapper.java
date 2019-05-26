@@ -20,7 +20,7 @@ public interface ShoppingCartMapper {
      * @param userId
      * @return
      */
-    @Select("SELECT book.book_id,book_name,book_image,book_price,book_presstime,book_pages,book_type,book_purchase_num,shopping_cart.user_id,book_press,cart_id FROM book INNER JOIN shopping_cart " +
+    @Select("SELECT book_desc,book_author,book.book_id,book_name,book_image,book_price,book_presstime,book_pages,book_type,book_purchase_num,shopping_cart.user_id,book_press,cart_id FROM book INNER JOIN shopping_cart " +
             "WHERE book.book_id = shopping_cart.book_id and shopping_cart.user_id=#{userId}")
     @Results({
             @Result(property = "bookId",column = "book_id"),
@@ -33,7 +33,9 @@ public interface ShoppingCartMapper {
             @Result(property = "bookPurchaseNum",column = "book_purchase_num"),
             @Result(property = "userId",column = "user_id"),
             @Result(property = "bookPress",column = "book_press"),
-            @Result(property = "shoppingCartId",column = "cart_id")
+            @Result(property = "shoppingCartId",column = "cart_id"),
+            @Result(property = "bookAuthor",column = "book_author"),
+            @Result(property = "bookDesc",column = "book_desc")
     })
     public List<ShoppingCartBook> getAllBooksFromShoppingCart(@Param("userId")Integer userId);
 
