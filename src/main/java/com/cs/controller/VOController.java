@@ -1,7 +1,9 @@
 package com.cs.controller;
 
 import com.cs.controller.VOModel.BookVO;
+import com.cs.controller.VOModel.UserVO;
 import com.cs.pojo.Book;
+import com.cs.pojo.User;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -17,5 +19,13 @@ public class VOController {
         BookVO bookVO =  new BookVO();
         BeanUtils.copyProperties(book,bookVO);
         return bookVO;
+    }
+    public UserVO userVOconvertFromPojo(User user){
+        if (user == null){
+            return null;
+        }
+        UserVO userVO = new UserVO();
+        BeanUtils.copyProperties(user,userVO);
+        return userVO;
     }
 }

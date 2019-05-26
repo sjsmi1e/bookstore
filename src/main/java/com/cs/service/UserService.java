@@ -1,7 +1,10 @@
 package com.cs.service;
 
+import com.cs.mapper.ShoppingCartMapper;
 import com.cs.mapper.UserMapper;
 import com.cs.pojo.Customer;
+import com.cs.pojo.Order;
+import com.cs.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +28,20 @@ public class UserService implements UserMapper {
     @Override
     public Integer logIn(String userEmail, String userPassword) {
         return userMapper.logIn(userEmail,userPassword);
+    }
+
+    @Override
+    public List<String> getAddrByUserId(Integer userId) {
+        return userMapper.getAddrByUserId(userId);
+    }
+
+    @Override
+    public User getUserById(Integer userId) {
+        return userMapper.getUserById(userId);
+    }
+
+    @Override
+    public Integer placeOrder(Order order) {
+        return userMapper.placeOrder(order);
     }
 }

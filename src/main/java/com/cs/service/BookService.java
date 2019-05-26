@@ -4,6 +4,7 @@ import com.cs.controller.VOModel.ShoppingCartBook;
 import com.cs.mapper.BookMapper;
 import com.cs.mapper.ShoppingCartMapper;
 import com.cs.pojo.Book;
+import com.cs.pojo.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,11 @@ public class BookService implements BookMapper,ShoppingCartMapper {
     }
 
     @Override
+    public List<Book> searchBook(String book_name) {
+        return bookMapper.searchBook(book_name);
+    }
+
+    @Override
     public List<ShoppingCartBook> getAllBooksFromShoppingCart(Integer userId) {
         return shoppingCartMapper.getAllBooksFromShoppingCart(userId);
     }
@@ -34,5 +40,10 @@ public class BookService implements BookMapper,ShoppingCartMapper {
     @Override
     public Integer delBookFromShoppingCart(Integer cartId) {
         return shoppingCartMapper.delBookFromShoppingCart(cartId);
+    }
+
+    @Override
+    public Integer placeOrder(Order order, Integer cartId) {
+        return shoppingCartMapper.placeOrder(order,cartId);
     }
 }

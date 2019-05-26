@@ -8,7 +8,6 @@ import com.cs.response.CommonResponse;
 import com.cs.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Description 书籍api
  */
 @Controller
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/book")
 public class BookController extends VOController {
     @Autowired
@@ -39,5 +37,14 @@ public class BookController extends VOController {
             BookVO bookVO = bookVOconvertFromPojo(book);
             return CommonResponse.createResponse(200,bookVO);
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/search",method = RequestMethod.GET)
+    public CommonResponse searchBook(String bookName) throws Exception {
+        if (bookName==null){
+            throw new Exception("输入参数不正确");
+        }
+        return CommonResponse.createResponse(200,bookService.searchBook(bookName));
     }
 }

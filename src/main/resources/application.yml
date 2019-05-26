@@ -16,7 +16,7 @@ spring:
       #初始化大小，最小，最大
       initial-size: 2
       min-idle: 2
-      max-active: 3
+      max-active: 10
   #连接池的配置信息
   #配置获取连接等待超时的时间
       maxWait: 6000
@@ -24,3 +24,7 @@ spring:
       timeBetweenEvictionRunsMillis: 60000
   #配置一个连接在池中最小生存的时间，单位是毫秒
       minEvictableIdleTimeMillis: 300000
+  #配置文件上传大小
+  servlet:
+    multipart:
+      max-file-size: 5MB
