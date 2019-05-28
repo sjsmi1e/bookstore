@@ -3,6 +3,7 @@ package com.cs.mapper;
 import com.cs.controller.VOModel.ShoppingCartBook;
 import com.cs.pojo.Book;
 import com.cs.pojo.Order;
+import com.cs.pojo.ShoppingCart;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.StatementType;
 
@@ -47,8 +48,17 @@ public interface ShoppingCartMapper {
     @Delete("DELETE FROM shopping_cart WHERE cart_id = #{cartId}")
     public Integer delBookFromShoppingCart(@Param("cartId")Integer cartId);
 
+    /**
+     * 购物车下单
+     * @param order
+     * @param cartId
+     * @return
+     */
     @Select({"CALL placeOrder(#{order.buyUserId},#{order.bookId},#{order.bookCount},#{order.orderNum},#{order.sellUserId}," +
-            "#{order.buyAddr},#{cartId})"})
+            "#{order.buyAddr},#{order.orderDesc},#{cartId})"})
     @Options(statementType = StatementType.CALLABLE)
     Integer placeOrder(@Param("order")Order order,@Param("cartId")Integer cartId);
+
+    @Insert("insert into shopping_cart values(default,#{shoppingCart.userId},#{shoppingCart.bookId},#{shoppingCart.bookCount})")
+    Integer addCart(@Param("shoppingCart")ShoppingCart shoppingCart);
 }

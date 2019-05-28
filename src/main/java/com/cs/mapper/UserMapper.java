@@ -5,6 +5,7 @@ import com.cs.pojo.Customer;
 import com.cs.pojo.Order;
 import com.cs.pojo.User;
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.StatementType;
 import org.springframework.web.bind.annotation.Mapping;
 
 import java.util.List;
@@ -82,7 +83,7 @@ public interface UserMapper {
      * @param order
      * @return
      */
-    @Insert("insert into `order` values(default,#{order.buyUserId},#{order.bookId},#{order.bookCount},#{order.createTime}" +
-            ",#{order.orderNum},#{order.sellUserId},#{order.buyAddr})")
+    @Select({"CALL `Order`(#{order.buyUserId},#{order.bookId},#{order.bookCount},#{order.orderNum},#{order.buyAddr},#{order.orderDesc})"})
+    @Options(statementType = StatementType.CALLABLE)
     public Integer placeOrder(@Param("order")Order order);
 }

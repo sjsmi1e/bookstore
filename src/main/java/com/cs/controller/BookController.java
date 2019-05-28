@@ -6,6 +6,7 @@ import com.cs.exception.BookException;
 import com.cs.exception.ErrorType;
 import com.cs.pojo.Book;
 import com.cs.pojo.Remark;
+import com.cs.pojo.ShoppingCart;
 import com.cs.response.CommonResponse;
 import com.cs.service.BookService;
 import com.cs.util.FileUtil;
@@ -70,13 +71,41 @@ public class BookController extends VOController {
     }
 
     /**
-     * 热门购买书籍前10本
+     * 热门购买书籍前6本
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/topBook",method = RequestMethod.GET)
-    public CommonResponse top10Book(){
-        return CommonResponse.createResponse(200,bookService.top10Book());
+    @RequestMapping(value = "/top6Book",method = RequestMethod.GET)
+    public CommonResponse top6Book(){
+        return CommonResponse.createResponse(200,bookService.top6Book());
+    }
+    /**
+     * 热门购买书籍前15本
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/top15Book",method = RequestMethod.GET)
+    public CommonResponse top15Book(){
+        return CommonResponse.createResponse(200,bookService.top15Book());
+    }
+
+    /**
+     * 热门购买书籍前8本
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/top8Book",method = RequestMethod.GET)
+    public CommonResponse top8Book(){
+        return CommonResponse.createResponse(200,bookService.top8Book());
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/typeTop6Book",method = RequestMethod.GET)
+    public CommonResponse typeTop6Book(String type) throws Exception {
+        if (type==null || type.equals("") || Integer.valueOf(type)<=0 || Integer.valueOf(type)>15){
+            throw new Exception("参数输入错误");
+        }
+        return CommonResponse.createResponse(200,bookService.typeTop6Book(Integer.valueOf(type)));
     }
 
     /**
@@ -137,6 +166,28 @@ public class BookController extends VOController {
         }finally {
             lock.unlock();
         }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/addCart",method = RequestMethod.POST)
+    public CommonResponse addCart(String userId,String bookId,String bookCount) throws Exception {
+        if (userId.equals("") || userId==null || bookId.equals("") || bookId==null || bookCount.equals("") || bookCount==null){
+            throw new Exception("输入参数不正确");
+        }
+        lock.lock();
+        try{
+            ShoppingCart shoppingCart = new ShoppingCart();
+            shoppingCart.setBookCount(Integer.valueOf(bookCount));
+            shoppingCart.setBookId(Integer.valueOf(bookId));
+            shoppingCart.setUserId(Integer.valueOf(userId));
+            if (bookService.addCart(shoppingCart)==1){
+                return CommonResponse.createResponse(200,"success");
+            }
+            return CommonResponse.createResponse(200,"fail");
+        }finally {
+            lock.unlock();
+        }
 
     }
+
 }

@@ -53,17 +53,18 @@ public interface BookMapper {
             @Result(property = "bookType",column = "book_type"),
             @Result(property = "bookPurchaseNum",column = "book_purchase_num"),
             @Result(property = "userId",column = "user_id"),
-            @Result(property = "bookAuthor",column = "book_author")
+            @Result(property = "bookAuthor",column = "book_author"),
+            @Result(property = "bookDesc",column = "book_desc")
     })
     public List<Book> searchBook(@Param("book_name")String book_name);
 
 
     /**
-     * top10书籍
+     * 热卖top6书籍
      * @return
      */
     @Select("select book_desc,book_id,book_name,book_image,book_price,book_press,book_presstime,book_pages,book_type,book_purchase_num," +
-            "user_id,book_author from book ORDER BY book_purchase_num DESC LIMIT 10")
+            "user_id,book_author from book ORDER BY book_purchase_num DESC LIMIT 6")
     @Results({
             @Result(property = "bookId",column = "book_id"),
             @Result(property = "bookName",column = "book_name"),
@@ -75,9 +76,10 @@ public interface BookMapper {
             @Result(property = "bookType",column = "book_type"),
             @Result(property = "bookPurchaseNum",column = "book_purchase_num"),
             @Result(property = "userId",column = "user_id"),
-            @Result(property = "bookAuthor",column = "book_author")
+            @Result(property = "bookAuthor",column = "book_author"),
+            @Result(property = "bookDesc",column = "book_desc")
     })
-    List<Book> top10Book();
+    List<Book> top6Book();
 
     /**
      * 通过bookId获取评论
@@ -103,4 +105,71 @@ public interface BookMapper {
      */
     @Insert("INSERT INTO remark VALUES(DEFAULT,#{remark.user.id},#{remark.bookId},#{remark.starNum},#{remark.content},#{remark.remarkImg},DEFAULT)")
     Integer addRemark(@Param("remark")Remark remark);
+
+
+    /**
+     * 新书热卖
+     * @return
+     */
+    @Select("SELECT book_desc,book_id,book_name,book_image,book_price,book_press,book_presstime,book_pages,book_type," +
+            "book_purchase_num,user_id,book_author FROM `book` ORDER BY book_presstime desc,book_purchase_num desc LIMIT 15")
+    @Results({
+            @Result(property = "bookId",column = "book_id"),
+            @Result(property = "bookName",column = "book_name"),
+            @Result(property = "bookImage",column = "book_image"),
+            @Result(property = "bookPrice",column = "book_price"),
+            @Result(property = "bookPress",column = "book_press"),
+            @Result(property = "bookPresstime",column = "book_presstime"),
+            @Result(property = "bookPages",column = "book_pages"),
+            @Result(property = "bookType",column = "book_type"),
+            @Result(property = "bookPurchaseNum",column = "book_purchase_num"),
+            @Result(property = "userId",column = "user_id"),
+            @Result(property = "bookAuthor",column = "book_author"),
+            @Result(property = "bookDesc",column = "book_desc")
+    })
+    List<Book> top15Book();
+
+
+    /**
+     * 新书推荐
+     * @return
+     */
+    @Select("SELECT book_desc,book_id,book_name,book_image,book_price,book_press,book_presstime,book_pages,book_type," +
+            "book_purchase_num,user_id,book_author FROM `book` ORDER BY book_presstime desc LIMIT 8")
+    @Results({
+            @Result(property = "bookId",column = "book_id"),
+            @Result(property = "bookName",column = "book_name"),
+            @Result(property = "bookImage",column = "book_image"),
+            @Result(property = "bookPrice",column = "book_price"),
+            @Result(property = "bookPress",column = "book_press"),
+            @Result(property = "bookPresstime",column = "book_presstime"),
+            @Result(property = "bookPages",column = "book_pages"),
+            @Result(property = "bookType",column = "book_type"),
+            @Result(property = "bookPurchaseNum",column = "book_purchase_num"),
+            @Result(property = "userId",column = "user_id"),
+            @Result(property = "bookAuthor",column = "book_author"),
+            @Result(property = "bookDesc",column = "book_desc")
+    })
+    List<Book> top8Book();
+
+    /**
+     * 同类型书籍推荐（按照购买量）top6
+     * @return
+     */
+    @Select("SELECT book_desc,book_id,book_name,book_image,book_price,book_press,book_presstime,book_pages,book_type,book_purchase_num,user_id,book_author FROM `book` WHERE book_type = #{type} ORDER BY book_purchase_num desc LIMIT 6")
+    @Results({
+            @Result(property = "bookId",column = "book_id"),
+            @Result(property = "bookName",column = "book_name"),
+            @Result(property = "bookImage",column = "book_image"),
+            @Result(property = "bookPrice",column = "book_price"),
+            @Result(property = "bookPress",column = "book_press"),
+            @Result(property = "bookPresstime",column = "book_presstime"),
+            @Result(property = "bookPages",column = "book_pages"),
+            @Result(property = "bookType",column = "book_type"),
+            @Result(property = "bookPurchaseNum",column = "book_purchase_num"),
+            @Result(property = "userId",column = "user_id"),
+            @Result(property = "bookAuthor",column = "book_author"),
+            @Result(property = "bookDesc",column = "book_desc")
+    })
+    List<Book> typeTop6Book(@Param("type")Integer type);
 }

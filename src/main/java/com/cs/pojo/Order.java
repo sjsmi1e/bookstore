@@ -17,5 +17,6 @@ public class Order {
     private String createTime;
     private String orderNum;//订单编号
     private String buyAddr;
+    private String orderDesc;//订单描述
 
 }

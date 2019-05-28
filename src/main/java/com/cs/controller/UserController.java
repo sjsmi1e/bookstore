@@ -143,7 +143,7 @@ public class UserController extends VOController{
     }
 
     /**
-     * 下单
+     * 购物车下单
      * @param books
      * @param buyId
      * @param addr
@@ -152,7 +152,7 @@ public class UserController extends VOController{
      */
     @RequestMapping(value = "/placeOrder",method = RequestMethod.POST)
     @ResponseBody
-    public CommonResponse placeOrder(String books,String buyId,String addr) throws Exception {
+    public CommonResponse placeOrder(String books,String buyId,String addr,String desc) throws Exception {
         if (books==null || buyId==null || addr==null || books.equals("") || !StringUtil.isInteger(buyId) || addr.equals("")){
             throw new Exception("输入参数错误");
         }
@@ -169,6 +169,7 @@ public class UserController extends VOController{
                 tempOrder.setSellUserId(book.getUserId());
                 tempOrder.setCreateTime(FormateTime.getData());
                 tempOrder.setBuyAddr(addr);
+                tempOrder.setOrderDesc(desc);
                 tempOrder.setBuyUserId(Integer.valueOf(buyId));
                 tempOrder.setOrderNum(UUID.randomUUID().toString());
                 if (bookService.placeOrder(tempOrder,book.getShoppingCartId())!=0){
@@ -184,6 +185,31 @@ public class UserController extends VOController{
             lock.unlock();
         }
         return CommonResponse.createResponse(200,"fail");
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/order",method = RequestMethod.POST)
+    public CommonResponse order(String userId,String bookId,String bookCount,String buyAddr,String orderDesc) throws Exception {
+        if (userId.equals("") || userId==null || bookId.equals("") || bookId==null || bookCount.equals("") || bookCount==null
+        || buyAddr.equals("") || buyAddr==null || !StringUtil.isInteger(userId) || !StringUtil.isInteger(bookId) || !StringUtil.isInteger(bookCount)){
+            throw new Exception("输入参数不正确");
+        }
+        lock.lock();
+        try {
+            Order order = new Order();
+            order.setBuyUserId(Integer.valueOf(userId));
+            order.setBookId(Integer.valueOf(bookId));
+            order.setOrderDesc(orderDesc);
+            order.setOrderNum(UUID.randomUUID().toString());
+            order.setBookCount(Integer.valueOf(bookCount));
+            order.setBuyAddr(buyAddr);
+            if (userService.placeOrder(order)==1){
+                return CommonResponse.createResponse(200,"success");
+            }
+            return CommonResponse.createResponse(200,"fail");
+        }finally {
+            lock.unlock();
+        }
     }
 
 }
