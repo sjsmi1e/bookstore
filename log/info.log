@@ -1,11 +1,10 @@
-11:25:33.463 [main] INFO  com.cs.BookstoreApplication - Starting BookstoreApplication on smi1e丶 with PID 16116 (C:\Users\Administrator\Desktop\bookstore\target\classes started by smile丶 in C:\Users\Administrator\Desktop\bookstore)
-11:25:33.592 [main] INFO  com.cs.BookstoreApplication - No active profile set, falling back to default profiles: default
-11:25:34.997 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-80"]
-11:25:35.007 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
-11:25:35.007 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.19]
-11:25:35.119 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-11:25:35.229 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
-11:25:37.243 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
-11:25:37.766 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-80"]
-11:25:37.800 [main] INFO  com.cs.BookstoreApplication - Started BookstoreApplication in 5.164 seconds (JVM running for 7.474)
-11:26:00.820 [http-nio-80-exec-2] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+10:28:43.389 [main] INFO  com.cs.BookstoreApplication - Starting BookstoreApplication on smi1e丶 with PID 15540 (C:\Users\Administrator\Desktop\bookstore\target\classes started by smile丶 in C:\Users\Administrator\Desktop\bookstore)
+10:28:43.627 [main] INFO  com.cs.BookstoreApplication - No active profile set, falling back to default profiles: default
+10:28:45.257 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-80"]
+10:28:45.269 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+10:28:45.270 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.19]
+10:28:45.406 [main] INFO  org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+10:28:45.525 [main] INFO  com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure - Init DruidDataSource
+10:28:46.553 [main] INFO  com.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+10:28:47.307 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-80"]
+10:28:47.405 [main] INFO  com.cs.BookstoreApplication - Started BookstoreApplication in 4.822 seconds (JVM running for 7.639)

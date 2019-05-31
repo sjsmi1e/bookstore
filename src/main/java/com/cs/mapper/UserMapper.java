@@ -83,7 +83,37 @@ public interface UserMapper {
      * @param order
      * @return
      */
-    @Select({"CALL `Order`(#{order.buyUserId},#{order.bookId},#{order.bookCount},#{order.orderNum},#{order.buyAddr},#{order.orderDesc})"})
+    @Select({"CALL `Order`(#{order.buyUserId},#{order.bookId.bookId},#{order.bookCount},#{order.orderNum},#{order.buyAddr},#{order.orderDesc})"})
     @Options(statementType = StatementType.CALLABLE)
     public Integer placeOrder(@Param("order")Order order);
+
+    /**
+     * 获取订单信息
+     * @param buyUserId
+     * @return
+     */
+    @Select("SELECT * FROM `order` WHERE buy_user_id=#{buyUserId}")
+    @Results({
+            @Result(property = "bookId",column = "book_id",one = @One(select = "com.cs.mapper.BookMapper.getBookById")),
+            @Result(property = "orderId",column = "order_id"),
+            @Result(property = "buyUserId",column = "buy_user_id"),
+            @Result(property = "sellUserId",column = "sell_user_id"),
+            @Result(property = "bookCount",column = "book_count"),
+            @Result(property = "createTime",column = "create_time"),
+            @Result(property = "orderNum",column = "order_num"),
+            @Result(property = "buyAddr",column = "buy_addr"),
+            @Result(property = "orderDesc",column = "order_desc")
+    })
+    List<Order> getOrderByUserId(@Param("buyUserId")Integer buyUserId);
+
+    /**
+     * 更新用户信息
+     * @param user
+     * @return
+     */
+    @Update("UPDATE `user` SET user_name=#{user.userName},user_avatar=#{user.userAvatar},user_sex=#{user.userSex},user_birth=#{user.userBirth}," +
+            "user_area=#{user.userArea},user_occupation=#{user.userOccupation},user_introduction=#{user.userIntroduction},user_email=#{user.userEmail} " +
+            "WHERE id=#{user.id}")
+    Integer updateUser(@Param("user")User user);
 }
+

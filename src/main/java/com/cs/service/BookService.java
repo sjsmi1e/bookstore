@@ -56,13 +56,38 @@ public class BookService implements BookMapper,ShoppingCartMapper {
     }
 
     @Override
-    public List<Book> top8Book() {
-        return bookMapper.top8Book();
+    public List<Book> topBook() {
+        return bookMapper.topBook();
     }
 
     @Override
     public List<Book> typeTop6Book(Integer type) {
         return bookMapper.typeTop6Book(type);
+    }
+
+    @Override
+    public List<Book> typeAllBook(Integer type) {
+        return bookMapper.typeAllBook(type);
+    }
+
+    @Override
+    public List<Book> AllBookByUserId(Integer userId) {
+        return bookMapper.AllBookByUserId(userId);
+    }
+
+    @Override
+    public Integer delBookById(Integer bookId) {
+        return bookMapper.delBookById(bookId);
+    }
+
+    @Override
+    public Integer updateBook(Book book) {
+        return bookMapper.updateBook(book);
+    }
+
+    @Override
+    public Integer addBook(Book book) {
+        return bookMapper.addBook(book);
     }
 
 

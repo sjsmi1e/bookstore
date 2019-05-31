@@ -12,7 +12,7 @@ public class Order {
     private Integer orderId;
     private Integer buyUserId;
     private Integer sellUserId;
-    private Integer bookId;
+    private Book bookId;
     private Integer bookCount;
     private String createTime;
     private String orderNum;//订单编号

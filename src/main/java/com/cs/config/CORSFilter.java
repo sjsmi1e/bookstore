@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by smi1e
  * Date 2019/5/25 10:00
- * Description
+ * Description 跨域过滤器
  */
 @Component
 public class CORSFilter implements Filter {
@@ -39,4 +39,6 @@ public class CORSFilter implements Filter {
     public void destroy() {
 
     }
+
+
 }

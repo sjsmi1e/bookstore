@@ -54,7 +54,7 @@ public interface ShoppingCartMapper {
      * @param cartId
      * @return
      */
-    @Select({"CALL placeOrder(#{order.buyUserId},#{order.bookId},#{order.bookCount},#{order.orderNum},#{order.sellUserId}," +
+    @Select({"CALL placeOrder(#{order.buyUserId},#{order.bookId.bookId},#{order.bookCount},#{order.orderNum},#{order.sellUserId}," +
             "#{order.buyAddr},#{order.orderDesc},#{cartId})"})
     @Options(statementType = StatementType.CALLABLE)
     Integer placeOrder(@Param("order")Order order,@Param("cartId")Integer cartId);

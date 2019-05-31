@@ -46,4 +46,14 @@ public class UserService implements UserMapper {
     public Integer placeOrder(Order order) {
         return userMapper.placeOrder(order);
     }
+
+    @Override
+    public List<Order> getOrderByUserId(Integer buyUserId) {
+        return userMapper.getOrderByUserId(buyUserId);
+    }
+
+    @Override
+    public Integer updateUser(User user) {
+        return userMapper.updateUser(user);
+    }
 }

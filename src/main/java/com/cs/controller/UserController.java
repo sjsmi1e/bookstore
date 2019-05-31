@@ -7,11 +7,14 @@ import com.cs.exception.UserException;
 import com.cs.pojo.Book;
 import com.cs.pojo.Customer;
 import com.cs.pojo.Order;
+import com.cs.pojo.User;
 import com.cs.response.CommonResponse;
 import com.cs.service.BookService;
 import com.cs.service.UserService;
 import com.cs.util.FormateTime;
 import com.cs.util.StringUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.server.Session;
@@ -165,7 +168,7 @@ public class UserController extends VOController{
             for (ShoppingCartBook book:orderBook){
                 Order tempOrder = new Order();
                 tempOrder.setBookCount(1);
-                tempOrder.setBookId(book.getBookId());
+                tempOrder.setBookId(bookService.getBookById(book.getBookId()));
                 tempOrder.setSellUserId(book.getUserId());
                 tempOrder.setCreateTime(FormateTime.getData());
                 tempOrder.setBuyAddr(addr);
@@ -187,6 +190,16 @@ public class UserController extends VOController{
         return CommonResponse.createResponse(200,"fail");
     }
 
+    /**
+     * 下单
+     * @param userId
+     * @param bookId
+     * @param bookCount
+     * @param buyAddr
+     * @param orderDesc
+     * @return
+     * @throws Exception
+     */
     @ResponseBody
     @RequestMapping(value = "/order",method = RequestMethod.POST)
     public CommonResponse order(String userId,String bookId,String bookCount,String buyAddr,String orderDesc) throws Exception {
@@ -198,7 +211,7 @@ public class UserController extends VOController{
         try {
             Order order = new Order();
             order.setBuyUserId(Integer.valueOf(userId));
-            order.setBookId(Integer.valueOf(bookId));
+            order.setBookId(bookService.getBookById(Integer.valueOf(bookId)));
             order.setOrderDesc(orderDesc);
             order.setOrderNum(UUID.randomUUID().toString());
             order.setBookCount(Integer.valueOf(bookCount));
@@ -210,6 +223,64 @@ public class UserController extends VOController{
         }finally {
             lock.unlock();
         }
+    }
+
+    /**
+     * 获取订单信息
+     * @param userId
+     * @param pageNo
+     * @param pageNum
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getOrder",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResponse getOrder(String userId,@RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "10") int pageNum) throws Exception {
+        if (userId.equals("")||userId==null||!StringUtil.isInteger(userId)){
+            throw new Exception("输入参数错误");
+        }
+        PageHelper.startPage(pageNo,pageNum,true);
+        return CommonResponse.createResponse(200,new PageInfo<>(userService.getOrderByUserId(Integer.valueOf(userId))));
+    }
+
+    /**
+     * 更新用户信息
+     * @param userId
+     * @param userName
+     * @param userImage
+     * @param userSex
+     * @param userBirth
+     * @param userArea
+     * @param userOccu
+     * @param userEmail
+     * @param userDesc
+     * @return
+     */
+    @RequestMapping(value = "/updateUser",method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResponse updateUser(String userId,String userName,String userImage,String userSex,String userBirth,String userArea,
+                                     String userOccu,String userEmail,String userDesc) throws Exception {
+        if (userId.equals("")||userId==null||!StringUtil.isInteger(userId)||userName.equals("")||userName==null||userSex.equals("")
+        ||userSex==null||userEmail.equals("")||userEmail==null){
+            throw new Exception("输入参数错误");
+        }
+        lock.lock();
+        try {
+            User user = new User();
+            user.setId(Integer.valueOf(userId));
+            user.setUserName(userName);
+            user.setUserAvatar(userImage);
+            user.setUserSex(userSex);
+            user.setUserBirth(userBirth);
+            user.setUserArea(userArea);
+            user.setUserOccupation(userOccu);
+            user.setUserEmail(userEmail);
+            user.setUserIntroduction(userDesc);
+            return CommonResponse.createResponse(200,userService.updateUser(user));
+        }finally {
+            lock.unlock();
+        }
+
     }
 
 }
