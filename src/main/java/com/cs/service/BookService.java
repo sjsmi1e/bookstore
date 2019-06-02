@@ -110,4 +110,9 @@ public class BookService implements BookMapper,ShoppingCartMapper {
     public Integer addCart(ShoppingCart shoppingCart) {
         return shoppingCartMapper.addCart(shoppingCart);
     }
+
+    @Override
+    public Integer getbuyOrder(Integer userId) {
+        return shoppingCartMapper.getbuyOrder(userId);
+    }
 }

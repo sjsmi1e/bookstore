@@ -206,6 +206,14 @@ public class BookController extends VOController {
 
     }
 
+    /**
+     * 获取书籍
+     * @param userId
+     * @param pageNo
+     * @param pageNum
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/getAllBookByUserId",method = RequestMethod.GET)
     @ResponseBody
     public CommonResponse getAllBookByUserId(String userId,@RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "10") int pageNum) throws Exception {
@@ -273,6 +281,20 @@ public class BookController extends VOController {
 
     }
 
+    /**
+     * 添加书籍
+     * @param bookName
+     * @param image
+     * @param price
+     * @param press
+     * @param pages
+     * @param type
+     * @param userId
+     * @param author
+     * @param desc
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/addBook",method = RequestMethod.POST)
     @ResponseBody
     public CommonResponse addBook(String bookName,String image,String price,String press,String pages,String type,String userId

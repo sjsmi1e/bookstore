@@ -79,6 +79,17 @@ public class UserController extends VOController{
         }
     }
 
+    @RequestMapping(value = "/logout",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResponse logOut(HttpServletResponse response,HttpServletRequest request){
+        HttpSession session = request.getSession(false);//防止创建Session
+        if(session == null){
+            return CommonResponse.createResponse(200,"注销成功");
+        }
+        session.removeAttribute("user_id");
+        return CommonResponse.createResponse(200,"注销成功");
+    }
+
     /**
      * 通过用户id获取用户信息
      * @param userId
@@ -281,6 +292,32 @@ public class UserController extends VOController{
             lock.unlock();
         }
 
+    }
+
+    /**
+     * 通过id获取有多少人下单了
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/getBuyOrder",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResponse getBuyOrder(String userId) throws Exception {
+        if (userId.equals("")||userId==null||!StringUtil.isInteger(userId)){
+            throw new Exception("参数输入错误");
+        }
+        return CommonResponse.createResponse(200,bookService.getbuyOrder(Integer.valueOf(userId)));
+    }
+
+
+    @RequestMapping(value = "/getBuyOrderInfo",method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResponse getBuyOrderInfo(String userId,@RequestParam(defaultValue = "1") int pageNo, @RequestParam(defaultValue = "10") int pageNum) throws Exception {
+        if (userId.equals("")||userId==null||!StringUtil.isInteger(userId)){
+            throw new Exception("参数输入错误");
+        }
+        PageHelper.startPage(pageNo,pageNum,true);
+        return CommonResponse.createResponse(200,new PageInfo<>(userService.getOrderBysellUserId(Integer.valueOf(userId))));
     }
 
 }

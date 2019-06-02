@@ -61,4 +61,13 @@ public interface ShoppingCartMapper {
 
     @Insert("insert into shopping_cart values(default,#{shoppingCart.userId},#{shoppingCart.bookId},#{shoppingCart.bookCount})")
     Integer addCart(@Param("shoppingCart")ShoppingCart shoppingCart);
+
+
+    /**
+     * 通过userId查询有多少人买了你的书
+     * @param userId
+     * @return
+     */
+    @Select("SELECT COUNT(order_id) FROM `order` WHERE sell_user_id = #{userId}")
+    Integer getbuyOrder(@Param("userId")Integer userId);
 }

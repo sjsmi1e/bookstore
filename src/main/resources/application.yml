@@ -1,7 +1,6 @@
 #配置log信息47.93.221.192
 logging:
   config: classpath:log4j2.xml
-
 server:
   port: 80
 spring:
@@ -28,7 +27,6 @@ spring:
   servlet:
     multipart:
       max-file-size: 5MB
-
 # PageHelper分页插件配置
 pagehelper:
   #分页插件会自动检测当前的数据库链接，自动选择合适的分页方式。

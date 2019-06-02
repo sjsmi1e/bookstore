@@ -115,5 +115,25 @@ public interface UserMapper {
             "user_area=#{user.userArea},user_occupation=#{user.userOccupation},user_introduction=#{user.userIntroduction},user_email=#{user.userEmail} " +
             "WHERE id=#{user.id}")
     Integer updateUser(@Param("user")User user);
+
+
+    /**
+     * 获取下单信息
+     * @param sellUserId
+     * @return
+     */
+    @Select("SELECT * FROM `order` WHERE sell_user_id=#{sellUserId}")
+    @Results({
+            @Result(property = "bookId",column = "book_id",one = @One(select = "com.cs.mapper.BookMapper.getBookById")),
+            @Result(property = "orderId",column = "order_id"),
+            @Result(property = "buyUserId",column = "buy_user_id"),
+            @Result(property = "sellUserId",column = "sell_user_id"),
+            @Result(property = "bookCount",column = "book_count"),
+            @Result(property = "createTime",column = "create_time"),
+            @Result(property = "orderNum",column = "order_num"),
+            @Result(property = "buyAddr",column = "buy_addr"),
+            @Result(property = "orderDesc",column = "order_desc")
+    })
+    List<Order> getOrderBysellUserId(@Param("sellUserId")Integer sellUserId);
 }
 
